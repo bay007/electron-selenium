@@ -14,6 +14,11 @@
 const electron = require("electron");
 var path = require("path");
 const axios = require("axios");
+
+var webdriver = require("selenium-webdriver");
+var chrome = require("selenium-webdriver/chrome");
+var path = require("chromedriver").path;
+
 //import { getPic } from "../../puppeteer/main";
 async function createWindow() {
   // session.defaultSession.clearStorageData({ storages: "serviceworkers" });
@@ -35,16 +40,32 @@ async function createWindow() {
 
 export default {
   name: "PageIndex",
+  data() {
+    return {
+      driver: null,
+      allCookies: null
+    };
+  },
   methods: {
-    click: function() {
+    click: async function() {
       console.log("click");
       //electron.shell.openItem(path.join(__dirname, "..", "main.js"));
       console.log(electron);
       console.log(typeof electron);
-      let childs = electron.remote.getCurrentWindow().getChildWindows();
+      //let childs = electron.remote.getCurrentWindow().getChildWindows();
 
-      console.log(path.join(__dirname, "..", "main.js"));
-      axios.get("http://127.0.0.1:5000/");
+      //console.log(path.join(__dirname, "..", "main.js"));
+
+      var service = new chrome.ServiceBuilder(path).build();
+      var options = new chrome.Options();
+      options.addArguments(`user-data-dir=./userData`);
+      chrome.setDefaultService(service);
+      this.driver = new webdriver.Builder()
+        .withCapabilities(webdriver.Capabilities.chrome())
+        .setChromeOptions(options)
+        .build();
+
+      this.driver.get("http://web.whatsapp.com/send?phonenumber=");
     }
   }
 };
