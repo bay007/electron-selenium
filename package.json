@@ -20,7 +20,7 @@
 	},
 	"devDependencies": {
 		"devtron": "1.4.0",
-		"electron": "4.0.5",
+		"electron": "11.5.0",
 		"electron-debug": "2.1.0",
 		"electron-devtools-installer": "2.2.4",
 		"electron-log": "^3.0.5",
